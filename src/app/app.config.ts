@@ -5,9 +5,10 @@ import { OktaAuthModule } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 const oktaAuth = new OktaAuth({
-  issuer: 'https://dev-79219993.okta.com/oauth2/ausmg5xzotEQ70Eb55d7',
+  issuer: 'https://dev-79219993.okta.com/oauth2/default',
   clientId: '0oamew4002f4YwbOt5d7',
   redirectUri: window.location.origin + '/login/callback',
   scopes: ['openid', 'profile', 'offline_access', 'email'],
@@ -17,10 +18,17 @@ const oktaAuth = new OktaAuth({
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
       provideRouter(routes),
+      provideHttpClient(),
       importProvidersFrom(OktaAuthModule.forRoot({ oktaAuth })
     )]
 };
 
 
-//issuer: 'https://dev-79219993.okta.com/oauth2/ausmg5xzotEQ70Eb55d7',
-//  issuer: 'https://dev-79219993.okta.com/oauth2/default',
+// work pkce flow
+
+// const oktaAuth = new OktaAuth({
+//   issuer: 'https://dev-79219993.okta.com/oauth2/default',
+//   clientId: '0oamew4002f4YwbOt5d7',
+//   redirectUri: window.location.origin + '/login/callback',
+//   scopes: ['openid', 'profile', 'offline_access', 'email'],
+// });
